@@ -675,26 +675,44 @@ function submitRSVP(){
   const diet=document.getElementById('r-diet').value;
   if(!name||!guests){alert('Por favor completa tu nombre y número de personas 🌿');return;}
 
-  // Submit to Google Form silently
-  fetch('https://docs.google.com/forms/d/e/1FAIpQLScJQrP8__3At_QE_DmDDW7TMINf8IMDcIC_dorqzrwjmKxutQ/formResponse',{
-    method:'POST',
-    mode:'no-cors',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:new URLSearchParams({
-      'entry.877086558':name,
-      'entry.1498135098':guests,
-      'entry.1424661284':diet||'Ninguna',
-      'entry.2606285':document.getElementById('r-msg').value||'—'
-    })
-  });
+  // Hidden iframe for reliable Google Form submission
+  var iframe=document.getElementById('hidden-form-iframe');
+  if(!iframe){
+    iframe=document.createElement('iframe');
+    iframe.id='hidden-form-iframe';
+    iframe.name='hidden-form-iframe';
+    iframe.style.display='none';
+    document.body.appendChild(iframe);
+  }
 
-  // Also send via WhatsApp
-  // const msg=`Hola! Confirmo asistencia a la boda de Gaby & Alex 🌿%0ANombre: ${encodeURIComponent(name)}%0APersonas: ${guests}%0ARestricción: ${encodeURIComponent(diet||'Ninguna')}%0AMensaje: ${encodeURIComponent(document.getElementById('r-msg').value||'—')}`;
-  // window.open(`https://wa.me/525564600910?text=${msg}`,'_blank');
+  var form=document.createElement('form');
+  form.method='POST';
+  form.action='https://docs.google.com/forms/d/e/1FAIpQLScJQrP8__3At_QE_DmDDW7TMINf8IMDcIC_dorqzrwjmKxutQ/formResponse';
+  form.target='hidden-form-iframe';
+
+  var fields={
+    'entry.877086558':name,
+    'entry.1498135098':guests,
+    'entry.1424661284':diet||'Ninguna',
+    'entry.2606285':document.getElementById('r-msg').value||'—'
+  };
+
+  for(var key in fields){
+    var input=document.createElement('input');
+    input.type='hidden';
+    input.name=key;
+    input.value=fields[key];
+    form.appendChild(input);
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
 
   document.getElementById('rsvp-form-wrap').style.display='none';
   document.getElementById('rsvp-thanks').style.display='block';
 }
+
 // Scroll reveal
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
