@@ -675,7 +675,6 @@ function submitRSVP(){
   const diet=document.getElementById('r-diet').value;
   if(!name||!guests){alert('Por favor completa tu nombre y número de personas 🌿');return;}
 
-  // Hidden iframe for reliable Google Form submission
   var iframe=document.getElementById('hidden-form-iframe');
   if(!iframe){
     iframe=document.createElement('iframe');
@@ -694,7 +693,7 @@ function submitRSVP(){
     'entry.877086558':name,
     'entry.1498135098':guests,
     'entry.1424661284':diet||'Ninguna',
-    'entry.2606285':document.getElementById('r-msg').value||'—'
+    'entry.2606285':document.getElementById('r-msg').value.trim()||'Sin mensaje'
   };
 
   for(var key in fields){
