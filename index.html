@@ -689,8 +689,8 @@ function submitRSVP(){
   });
 
   // Also send via WhatsApp
-  const msg=`Hola! Confirmo asistencia a la boda de Gaby & Alex 🌿%0ANombre: ${encodeURIComponent(name)}%0APersonas: ${guests}%0ARestricción: ${encodeURIComponent(diet||'Ninguna')}%0AMensaje: ${encodeURIComponent(document.getElementById('r-msg').value||'—')}`;
-  window.open(`https://wa.me/525564600910?text=${msg}`,'_blank');
+  // const msg=`Hola! Confirmo asistencia a la boda de Gaby & Alex 🌿%0ANombre: ${encodeURIComponent(name)}%0APersonas: ${guests}%0ARestricción: ${encodeURIComponent(diet||'Ninguna')}%0AMensaje: ${encodeURIComponent(document.getElementById('r-msg').value||'—')}`;
+  // window.open(`https://wa.me/525564600910?text=${msg}`,'_blank');
 
   document.getElementById('rsvp-form-wrap').style.display='none';
   document.getElementById('rsvp-thanks').style.display='block';
