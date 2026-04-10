@@ -675,38 +675,16 @@ function submitRSVP(){
   const diet=document.getElementById('r-diet').value;
   if(!name||!guests){alert('Por favor completa tu nombre y número de personas 🌿');return;}
 
-  var iframe=document.getElementById('hidden-form-iframe');
-  if(!iframe){
-    iframe=document.createElement('iframe');
-    iframe.id='hidden-form-iframe';
-    iframe.name='hidden-form-iframe';
-    iframe.style.display='none';
-    document.body.appendChild(iframe);
-  }
+  var params=new URLSearchParams();
+  params.append('entry.877086558',name);
+  params.append('entry.1498135098',guests);
+  params.append('entry.1424661284',diet||'Ninguna');
+  params.append('entry.2606285',document.getElementById('r-msg').value.trim()||'Sin mensaje');
 
-  var form=document.createElement('form');
-  form.method='POST';
-  form.action='https://docs.google.com/forms/d/e/1FAIpQLScJQrP8__3At_QE_DmDDW7TMINf8IMDcIC_dorqzrwjmKxutQ/formResponse';
-  form.target='hidden-form-iframe';
-
-  var fields={
-    'entry.877086558':name,
-    'entry.1498135098':guests,
-    'entry.1424661284':diet||'Ninguna',
-    'entry.2606285':document.getElementById('r-msg').value.trim()||'Sin mensaje'
-  };
-
-  for(var key in fields){
-    var input=document.createElement('input');
-    input.type='hidden';
-    input.name=key;
-    input.value=fields[key];
-    form.appendChild(input);
-  }
-
-  document.body.appendChild(form);
-  form.submit();
-  form.remove();
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLScJQrP8__3At_QE_DmDDW7TMINf8IMDcIC_dorqzrwjmKxutQ/formResponse?'+params.toString(),{
+    method:'GET',
+    mode:'no-cors'
+  });
 
   document.getElementById('rsvp-form-wrap').style.display='none';
   document.getElementById('rsvp-thanks').style.display='block';
