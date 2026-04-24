@@ -188,6 +188,40 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
 @keyframes fiu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(9px)}}
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LANGUAGE MODAL ── */
+.lang-modal{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#1C2E16 0%,#2D4522 50%,#3D5C30 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;transition:opacity .5s ease;overflow-y:auto}
+.lang-modal.hidden{opacity:0;pointer-events:none}
+.lang-modal::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(184,169,106,.08),transparent 40%),radial-gradient(circle at 80% 70%,rgba(200,216,190,.06),transparent 40%);pointer-events:none}
+.lang-modal-inner{position:relative;z-index:1;animation:fadeInUp .8s ease}
+.lang-ornament{margin:0 auto 2rem;opacity:.9}
+.lang-names{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#fff;font-size:clamp(2.4rem,7vw,3.8rem);line-height:1.1;margin-bottom:.4rem}
+.lang-names .amp{color:#E8D9A0;font-size:.7em;display:inline-block;margin:0 .3rem}
+.lang-date{font-family:'Cormorant Garamond',serif;font-style:italic;color:#E8D9A0;font-size:1.05rem;letter-spacing:.05em;margin-bottom:2.8rem;opacity:.85}
+.lang-prompt{font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(200,216,190,.75);margin-bottom:.5rem}
+.lang-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:#fff;font-size:1.35rem;margin-bottom:2.5rem;font-weight:300}
+.lang-buttons{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+.lang-btn{background:rgba(255,255,255,.08);border:1.5px solid rgba(232,217,160,.45);backdrop-filter:blur(10px);color:#fff;padding:1.4rem 2.4rem;border-radius:16px;cursor:pointer;font-family:'Lato',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;transition:all .3s ease;display:flex;flex-direction:column;align-items:center;gap:.6rem;min-width:160px}
+.lang-btn:hover{background:rgba(232,217,160,.18);border-color:#E8D9A0;transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.lang-flag{font-size:2.4rem;line-height:1}
+.lang-label{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.3rem;letter-spacing:.02em;text-transform:none;font-weight:400}
+.lang-divider{width:40px;height:1px;background:rgba(232,217,160,.4);margin:2rem auto}
+
+/* Nav language switcher */
+.lang-switch{display:inline-flex;gap:.35rem;align-items:center;margin-left:.5rem}
+.lang-switch button{background:none;border:none;color:var(--mist);cursor:pointer;font-size:.68rem;letter-spacing:.15em;padding:.2rem .4rem;opacity:.55;transition:opacity .2s;font-family:'Lato',sans-serif;text-transform:uppercase}
+.lang-switch button:hover{opacity:1}
+.lang-switch button.active{opacity:1;color:#E8D9A0;font-weight:700}
+.lang-switch .sep{color:rgba(200,216,190,.3);font-size:.6rem}
+
+@media(max-width:560px){
+  .lang-buttons{flex-direction:column;width:100%;max-width:280px;margin:0 auto}
+  .lang-btn{width:100%;padding:1.2rem 1.8rem}
+  .lang-names{font-size:2.4rem}
+  .lang-date{font-size:.9rem;margin-bottom:2rem}
+  .lang-sub{font-size:1.1rem;margin-bottom:2rem}
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
@@ -264,14 +298,50 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
 }
 </style>
 
+<!-- LANGUAGE MODAL -->
+<div class="lang-modal" id="langModal">
+  <div class="lang-modal-inner">
+    <div class="lang-ornament">
+      <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" fill="none" width="100">
+        <ellipse cx="45" cy="30" rx="18" ry="20" stroke="#E8D9A0" stroke-width="3" opacity=".85"/>
+        <ellipse cx="45" cy="30" rx="18" ry="20" stroke="#fff" stroke-width="1" opacity=".25"/>
+        <ellipse cx="75" cy="30" rx="18" ry="20" stroke="#E8D9A0" stroke-width="3" opacity=".85"/>
+        <ellipse cx="75" cy="30" rx="18" ry="20" stroke="#fff" stroke-width="1" opacity=".25"/>
+        <polygon points="45,8 41,14 45,12 49,14" fill="#fff" opacity=".9"/>
+        <polygon points="45,8 41,14 45,16 49,14" fill="#E8D9A0" opacity=".6"/>
+      </svg>
+    </div>
+    <h1 class="lang-names">Gaby <span class="amp">&amp;</span> Alex</h1>
+    <p class="lang-date">26 · 12 · 2026 — Sucre, Bolivia</p>
+    <div class="lang-divider"></div>
+    <p class="lang-prompt">Bienvenue · Bienvenidos</p>
+    <p class="lang-sub">Choisissez votre langue / Elige tu idioma</p>
+    <div class="lang-buttons">
+      <button class="lang-btn" onclick="setLang('es')">
+        <span class="lang-flag">🇪🇸</span>
+        <span class="lang-label">Español</span>
+      </button>
+      <button class="lang-btn" onclick="setLang('fr')">
+        <span class="lang-flag">🇫🇷</span>
+        <span class="lang-label">Français</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
-  <a href="#inicio">Inicio</a>
-  <a href="#ceremonia">Lugares</a>
-  <a href="#programa">Programa</a>
-  <a href="#dresscode">Vestimenta</a>
-  <a href="#rsvp">RSVP</a>
-  <a href="#regalos">Regalos</a>
+  <a href="#inicio" data-es="Inicio" data-fr="Accueil">Inicio</a>
+  <a href="#ceremonia" data-es="Lugares" data-fr="Lieux">Lugares</a>
+  <a href="#programa" data-es="Programa" data-fr="Programme">Programa</a>
+  <a href="#dresscode" data-es="Vestimenta" data-fr="Tenue">Vestimenta</a>
+  <a href="#rsvp" data-es="RSVP" data-fr="RSVP">RSVP</a>
+  <a href="#regalos" data-es="Regalos" data-fr="Cadeaux">Regalos</a>
+  <span class="lang-switch">
+    <button onclick="setLang('es')" id="ls-es">ES</button>
+    <span class="sep">·</span>
+    <button onclick="setLang('fr')" id="ls-fr">FR</button>
+  </span>
 </nav>
 
 
@@ -296,7 +366,7 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
     </svg>
   </div>
 
-  <p class="hero-tagline">Tenemos el honor de invitarles a nuestra boda</p>
+  <p class="hero-tagline" data-es="Tenemos el honor de invitarles a nuestra boda" data-fr="Nous avons l'honneur de vous inviter à notre mariage">Tenemos el honor de invitarles a nuestra boda</p>
 
   <div class="hero-names">
     <span class="hero-name1">Gaby</span>
@@ -309,8 +379,8 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
     "Un matrimonio perfecto es la unión de dos seres,<br>uno que ama más y otro que ama mejor."<br>
     <span style="font-size:.75rem;letter-spacing:.12em;font-style:normal;color:rgba(200,216,190,.45)">— VM. SAW</span>
   </p> -->
-  <p class="hero-date">26 de Diciembre de 2026</p>
-  <p class="hero-loc">Sucre, Bolivia</p>
+  <p class="hero-date" data-es="26 de Diciembre de 2026" data-fr="26 Décembre 2026">26 de Diciembre de 2026</p>
+  <p class="hero-loc" data-es="Sucre, Bolivia" data-fr="Sucre, Bolivie">Sucre, Bolivia</p>
 
   <div class="scroll-ind">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -334,13 +404,13 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
 
 <!-- COUNTDOWN (now first) -->
 <section class="cd-section" id="cuenta" style="padding-top:5.5rem">
-  <p class="sec-label">Faltan...</p>
-  <h2 class="sec-title">Cuenta <em>regresiva</em></h2>
+  <p class="sec-label" data-es="Faltan..." data-fr="Plus que...">Faltan...</p>
+  <h2 class="sec-title"><span data-es="Cuenta" data-fr="Compte à">Cuenta</span> <em data-es="regresiva" data-fr="rebours">regresiva</em></h2>
   <div class="cd-grid">
-    <div class="cd-item"><span class="cd-num" id="cd-d">—</span><span class="cd-lbl">Días</span></div>
-    <div class="cd-item"><span class="cd-num" id="cd-h">—</span><span class="cd-lbl">Horas</span></div>
-    <div class="cd-item"><span class="cd-num" id="cd-m">—</span><span class="cd-lbl">Minutos</span></div>
-    <div class="cd-item"><span class="cd-num" id="cd-s">—</span><span class="cd-lbl">Segundos</span></div>
+    <div class="cd-item"><span class="cd-num" id="cd-d">—</span><span class="cd-lbl" data-es="Días" data-fr="Jours">Días</span></div>
+    <div class="cd-item"><span class="cd-num" id="cd-h">—</span><span class="cd-lbl" data-es="Horas" data-fr="Heures">Horas</span></div>
+    <div class="cd-item"><span class="cd-num" id="cd-m">—</span><span class="cd-lbl" data-es="Minutos" data-fr="Minutes">Minutos</span></div>
+    <div class="cd-item"><span class="cd-num" id="cd-s">—</span><span class="cd-lbl" data-es="Segundos" data-fr="Secondes">Segundos</span></div>
   </div>
 </section>
 
@@ -351,7 +421,7 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
     <div class="qp-quote" style="flex:1;min-width:340px;max-width:500px;background:#fff;border-radius:22px;padding:4.5rem 3.5rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 28px rgba(90,120,70,.07);min-height:520px;opacity:0;transform:translateX(-40px);transition:opacity .9s ease,transform .9s ease">
       <div style="max-width:420px;text-align:center">
         <div class="qp-line-top" style="width:48px;height:2px;background:var(--gold);margin:0 auto 2.5rem;opacity:0;transform:scaleX(0);transition:opacity .6s .3s ease,transform .6s .3s ease"></div>
-        <blockquote style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--dark);line-height:1.6;font-weight:300;margin-bottom:2.2rem">
+        <blockquote style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--dark);line-height:1.6;font-weight:300;margin-bottom:2.2rem" data-es="&quot;Un matrimonio perfecto es la unión de dos seres, uno que ama más y otro que ama mejor.&quot;" data-fr="&quot;Un mariage parfait est l'union de deux êtres, l'un qui aime davantage et l'autre qui aime mieux.&quot;">
           "Un matrimonio perfecto es la unión de dos seres, uno que ama más y otro que ama mejor."
         </blockquote>
         <p style="font-family:'Lato',sans-serif;font-size:.88rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sage);opacity:.7">— VM. SAW</p>
@@ -378,101 +448,101 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
 
 <!-- VENUES -->
 <section class="venues-sec" id="ceremonia">
-  <p class="sec-label">El gran día</p>
-  <h2 class="sec-title">Lugares de <em style="color:var(--mist)">celebración</em></h2>
+  <p class="sec-label" data-es="El gran día" data-fr="Le grand jour">El gran día</p>
+  <h2 class="sec-title"><span data-es="Lugares de" data-fr="Lieux de">Lugares de</span> <em style="color:var(--mist)" data-es="celebración" data-fr="célébration">celebración</em></h2>
   <div class="venues-grid">
     <div class="venue-card reveal">
       <span class="venue-icon">⛪</span>
-      <p class="venue-type">Ceremonia</p>
+      <p class="venue-type" data-es="Ceremonia" data-fr="Cérémonie">Ceremonia</p>
       <h3 class="venue-name">La Gruta</h3>
       <span class="venue-time">10:00 AM</span>
-      <p class="venue-addr">Sucre, Bolivia<br>26 de diciembre de 2026</p>
+      <p class="venue-addr" data-es-html="Sucre, Bolivia<br>26 de diciembre de 2026" data-fr-html="Sucre, Bolivie<br>26 décembre 2026">Sucre, Bolivia<br>26 de diciembre de 2026</p>
     </div>
     <div class="venue-card reveal">
       <span class="venue-icon">🌿</span>
-      <p class="venue-type">Recepción &amp; Celebración</p>
+      <p class="venue-type" data-es="Recepción &amp; Celebración" data-fr="Réception &amp; Célébration">Recepción &amp; Celebración</p>
       <h3 class="venue-name">La Casa Blanca</h3>
       <span class="venue-time">1:00 PM</span>
-      <p class="venue-addr">Sucre, Bolivia<br>Campo afuera de la ciudad</p>
+      <p class="venue-addr" data-es-html="Sucre, Bolivia<br>Campo afuera de la ciudad" data-fr-html="Sucre, Bolivie<br>À la campagne, hors de la ville">Sucre, Bolivia<br>Campo afuera de la ciudad</p>
     </div>
   </div>
 </section>
 
 <!-- PROGRAM -->
 <section class="prog-sec" id="programa">
-  <p class="sec-label">El programa</p>
-  <h2 class="sec-title">Programa del <em>Día</em></h2>
+  <p class="sec-label" data-es="El programa" data-fr="Le programme">El programa</p>
+  <h2 class="sec-title"><span data-es="Programa del" data-fr="Programme de la">Programa del</span> <em data-es="Día" data-fr="Journée">Día</em></h2>
   <div class="prog-sec sec-divider" style="width:40px;height:1px;background:var(--gold);margin:.6rem auto 3rem;opacity:.7"></div>
 
   <div class="timeline">
     <div class="tl-item reveal">
       <div class="tl-left"><div class="tl-time">9:30 AM</div></div>
       <div class="tl-dot"></div>
-      <div class="tl-right"><span class="tl-emoji">💐</span><div class="tl-event">Llegada de invitados</div><div class="tl-desc">Recepción en La Gruta, Sucre</div></div>
+      <div class="tl-right"><span class="tl-emoji">💐</span><div class="tl-event" data-es="Llegada de invitados" data-fr="Arrivée des invités">Llegada de invitados</div><div class="tl-desc" data-es="Recepción en La Gruta, Sucre" data-fr="Accueil à La Gruta, Sucre">Recepción en La Gruta, Sucre</div></div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">⛪</span><div class="tl-event">Ceremonia Religiosa</div><div class="tl-desc">Celebración del matrimonio en La Gruta</div></div>
+      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">⛪</span><div class="tl-event" data-es="Ceremonia Religiosa" data-fr="Cérémonie religieuse">Ceremonia Religiosa</div><div class="tl-desc" data-es="Celebración del matrimonio en La Gruta" data-fr="Célébration du mariage à La Gruta">Celebración del matrimonio en La Gruta</div></div>
       <div class="tl-dot"></div>
       <div class="tl-right"><div class="tl-time">10:00 AM</div></div>
     </div>
     <div class="tl-item reveal">
       <div class="tl-left"><div class="tl-time">11:30 AM</div></div>
       <div class="tl-dot"></div>
-      <div class="tl-right"><span class="tl-emoji">📸</span><div class="tl-event">Sesión de Fotos</div><div class="tl-desc">Fotos con los novios y la familia</div></div>
+      <div class="tl-right"><span class="tl-emoji">📸</span><div class="tl-event" data-es="Sesión de Fotos" data-fr="Séance photo">Sesión de Fotos</div><div class="tl-desc" data-es="Fotos con los novios y la familia" data-fr="Photos avec les mariés et la famille">Fotos con los novios y la familia</div></div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">🥂</span><div class="tl-event">Recepción &amp; Brindis</div><div class="tl-desc">Bienvenida en La Casa Blanca con cóctel de honor</div></div>
+      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">🥂</span><div class="tl-event" data-es="Recepción &amp; Brindis" data-fr="Réception &amp; Toast">Recepción &amp; Brindis</div><div class="tl-desc" data-es="Bienvenida en La Casa Blanca con cóctel de honor" data-fr="Accueil à La Casa Blanca avec cocktail d'honneur">Bienvenida en La Casa Blanca con cóctel de honor</div></div>
       <div class="tl-dot"></div>
       <div class="tl-right"><div class="tl-time">1:00 PM</div></div>
     </div>
     <div class="tl-item reveal">
       <div class="tl-left"><div class="tl-time">2:30 PM</div></div>
       <div class="tl-dot"></div>
-      <div class="tl-right"><span class="tl-emoji">🍽️</span><div class="tl-event">Banquete</div><div class="tl-desc">Almuerzo especial para celebrar juntos</div></div>
+      <div class="tl-right"><span class="tl-emoji">🍽️</span><div class="tl-event" data-es="Banquete" data-fr="Banquet">Banquete</div><div class="tl-desc" data-es="Almuerzo especial para celebrar juntos" data-fr="Déjeuner spécial pour célébrer ensemble">Almuerzo especial para celebrar juntos</div></div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">💬</span><div class="tl-event">Brindis &amp; Discursos</div><div class="tl-desc">Palabras de amor y gratitud</div></div>
+      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">💬</span><div class="tl-event" data-es="Brindis &amp; Discursos" data-fr="Toasts &amp; Discours">Brindis &amp; Discursos</div><div class="tl-desc" data-es="Palabras de amor y gratitud" data-fr="Mots d'amour et de gratitude">Palabras de amor y gratitud</div></div>
       <div class="tl-dot"></div>
       <div class="tl-right"><div class="tl-time">4:00 PM</div></div>
     </div>
     <div class="tl-item reveal">
       <div class="tl-left"><div class="tl-time">5:00 PM</div></div>
       <div class="tl-dot"></div>
-      <div class="tl-right"><span class="tl-emoji">🎶</span><div class="tl-event">Música &amp; Baile</div><div class="tl-desc">¡A celebrar bajo el cielo abierto!</div></div>
+      <div class="tl-right"><span class="tl-emoji">🎶</span><div class="tl-event" data-es="Música &amp; Baile" data-fr="Musique &amp; Danse">Música &amp; Baile</div><div class="tl-desc" data-es="¡A celebrar bajo el cielo abierto!" data-fr="Célébrons à ciel ouvert !">¡A celebrar bajo el cielo abierto!</div></div>
     </div>
     <div class="tl-item reveal">
-      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">🎂</span><div class="tl-event">Corte de Pastel</div><div class="tl-desc">El momento más dulce de la noche</div></div>
+      <div class="tl-left"><span class="tl-emoji" style="text-align:right;display:block">🎂</span><div class="tl-event" data-es="Corte de Pastel" data-fr="Découpe du gâteau">Corte de Pastel</div><div class="tl-desc" data-es="El momento más dulce de la noche" data-fr="Le moment le plus doux de la soirée">El momento más dulce de la noche</div></div>
       <div class="tl-dot"></div>
       <div class="tl-right"><div class="tl-time">7:00 PM</div></div>
     </div>
     <div class="tl-item reveal">
       <div class="tl-left"><div class="tl-time">7:30 PM</div></div>
       <div class="tl-dot"></div>
-      <div class="tl-right"><span class="tl-emoji">💃</span><div class="tl-event">Fiesta &amp; Baile libre</div><div class="tl-desc">¡La noche es nuestra!</div></div>
+      <div class="tl-right"><span class="tl-emoji">💃</span><div class="tl-event" data-es="Fiesta &amp; Baile libre" data-fr="Fête &amp; Danse libre">Fiesta &amp; Baile libre</div><div class="tl-desc" data-es="¡La noche es nuestra!" data-fr="La nuit nous appartient !">¡La noche es nuestra!</div></div>
     </div>
   </div>
 </section>
 
 <!-- DRESSCODE -->
 <section class="dress-sec" id="dresscode">
-  <p class="sec-label">Vestimenta</p>
+  <p class="sec-label" data-es="Vestimenta" data-fr="Tenue vestimentaire">Vestimenta</p>
   <h2 class="sec-title" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400">Dresscode</h2>
   <div style="width:40px;height:1px;background:var(--gold);margin:.6rem auto 2.5rem;opacity:.7"></div>
 
   <div class="dress-card reveal">
-    <div class="dress-pill">Formal Cómodo</div>
-    <p class="dress-main-text">Nuestra celebración será en un hermoso campo a las afueras de la ciudad. Los invitamos a vestir elegantes pero cómodos para disfrutar del entorno natural.</p>
-    <p class="dress-note-it">Sugerimos zapatos cómodos para caminar sobre el césped y traer un abrigo ligero para la noche.</p>
-    <div class="dress-temp">☀️&nbsp; Temperatura esperada: 16°C – 22°C</div>
+    <div class="dress-pill" data-es="Formal Cómodo" data-fr="Formel décontracté">Formal Cómodo</div>
+    <p class="dress-main-text" data-es="Nuestra celebración será en un hermoso campo a las afueras de la ciudad. Los invitamos a vestir elegantes pero cómodos para disfrutar del entorno natural." data-fr="Notre célébration aura lieu dans un magnifique cadre champêtre, en périphérie de la ville. Nous vous invitons à porter une tenue élégante mais confortable pour profiter pleinement du cadre naturel.">Nuestra celebración será en un hermoso campo a las afueras de la ciudad. Los invitamos a vestir elegantes pero cómodos para disfrutar del entorno natural.</p>
+    <p class="dress-note-it" data-es="Sugerimos zapatos cómodos para caminar sobre el césped y traer un abrigo ligero para la noche." data-fr="Nous vous suggérons des chaussures confortables pour marcher sur l'herbe et une veste légère pour la soirée.">Sugerimos zapatos cómodos para caminar sobre el césped y traer un abrigo ligero para la noche.</p>
+    <div class="dress-temp" data-es-html="☀️&nbsp; Temperatura esperada: 16°C – 22°C" data-fr-html="☀️&nbsp; Température prévue : 16°C – 22°C">☀️&nbsp; Temperatura esperada: 16°C – 22°C</div>
   </div>
 </section>
 
 <!-- CAROUSEL -->
 <section class="carousel-sec" id="fotos">
-  <p class="sec-label">Galería</p>
-  <h2 class="sec-title">Nuestra <em style="font-family:'Cormorant Garamond',serif">historia</em> en fotos</h2>
-  <p class="photo-note">🌿 Momentos que nos trajeron hasta aquí 🌿</p>
-  <p class="photo-note" style="opacity:.45;font-size:.68rem;padding-top:0">Toca una foto para verla completa</p>
+  <p class="sec-label" data-es="Galería" data-fr="Galerie">Galería</p>
+  <h2 class="sec-title"><span data-es="Nuestra" data-fr="Notre">Nuestra</span> <em style="font-family:'Cormorant Garamond',serif" data-es="historia" data-fr="histoire">historia</em> <span data-es="en fotos" data-fr="en photos">en fotos</span></h2>
+  <p class="photo-note" data-es="🌿 Momentos que nos trajeron hasta aquí 🌿" data-fr="🌿 Les moments qui nous ont menés jusqu'ici 🌿">🌿 Momentos que nos trajeron hasta aquí 🌿</p>
+  <p class="photo-note" style="opacity:.45;font-size:.68rem;padding-top:0" data-es="Toca una foto para verla completa" data-fr="Touchez une photo pour l'agrandir">Toca una foto para verla completa</p>
   <div class="c-wrap">
     <div class="c-track">
       <div class="c-slide" style="background-image:url('g1.jpeg')"></div>
@@ -502,98 +572,98 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
 
 <!-- RSVP -->
 <section class="rsvp-sec" id="rsvp">
-  <p class="sec-label">Confirmación de asistencia</p>
-  <h2 class="sec-title">Confirma tu <em>presencia</em></h2>
-  <p class="rsvp-note">Para organizarnos de la mejor manera tenemos tres rondas de confirmación. Usa el botón de la que más te convenga 🌿</p>
+  <p class="sec-label" data-es="Confirmación de asistencia" data-fr="Confirmation de présence">Confirmación de asistencia</p>
+  <h2 class="sec-title"><span data-es="Confirma tu" data-fr="Confirmez votre">Confirma tu</span> <em data-es="presencia" data-fr="présence">presencia</em></h2>
+  <p class="rsvp-note" data-es="Para organizarnos de la mejor manera tenemos tres rondas de confirmación. Usa el botón de la que más te convenga 🌿" data-fr="Pour mieux nous organiser, trois périodes de confirmation sont prévues. Utilisez celle qui vous convient le mieux 🌿">Para organizarnos de la mejor manera tenemos tres rondas de confirmación. Usa el botón de la que más te convenga 🌿</p>
 
   <div class="rsvp-grid">
     <div class="rsvp-card reveal" style="max-width:340px;flex:unset;width:100%">
-      <p class="rsvp-round">Primera confirmación</p>
-      <div class="rsvp-date">30 de Mayo</div>
+      <p class="rsvp-round" data-es="Primera confirmación" data-fr="Première confirmation">Primera confirmación</p>
+      <div class="rsvp-date" data-es="30 de Mayo" data-fr="30 mai">30 de Mayo</div>
       <div class="rsvp-year" style="margin-bottom:.8rem">2026</div>
       <div id="rsvp-form-wrap">
         <div class="rsvp-form">
-          <input id="r-name" type="text" placeholder="Tu nombre completo" maxlength="80"/>
-          <input id="r-guests" type="number" placeholder="N° de personas (tú + 1 acompañante máx.)" min="1" max="2" oninput="if(this.value>2){this.value=2;document.getElementById('guests-warn').style.display='block'}else{document.getElementById('guests-warn').style.display='none'}"/>
-          <span id="guests-warn" style="display:none;font-size:.75rem;color:#B05050;margin-top:-.4rem">Máximo 2 personas por invitación (tú + 1 acompañante) 🌿</span>
+          <input id="r-name" type="text" placeholder="Tu nombre completo" data-ph-es="Tu nombre completo" data-ph-fr="Votre nom complet" maxlength="80"/>
+          <input id="r-guests" type="number" placeholder="N° de personas (tú + 1 acompañante máx.)" data-ph-es="N° de personas (tú + 1 acompañante máx.)" data-ph-fr="Nbr de personnes (vous + 1 accompagnant max.)" min="1" max="2" oninput="if(this.value>2){this.value=2;document.getElementById('guests-warn').style.display='block'}else{document.getElementById('guests-warn').style.display='none'}"/>
+          <span id="guests-warn" style="display:none;font-size:.75rem;color:#B05050;margin-top:-.4rem" data-es="Máximo 2 personas por invitación (tú + 1 acompañante) 🌿" data-fr="Maximum 2 personnes par invitation (vous + 1 accompagnant) 🌿">Máximo 2 personas por invitación (tú + 1 acompañante) 🌿</span>
           <select id="r-diet">
-            <option value="" disabled selected>¿Restricción alimentaria?</option>
-            <option value="ninguna">Ninguna</option>
-            <option value="vegetariano">Vegetariano</option>
-            <option value="vegano">Vegano</option>
-            <option value="sin-gluten">Sin gluten</option>
-            <option value="otra">Otra</option>
+            <option value="" disabled selected data-es="¿Restricción alimentaria?" data-fr="Régime alimentaire particulier ?">¿Restricción alimentaria?</option>
+            <option value="ninguna" data-es="Ninguna" data-fr="Aucun">Ninguna</option>
+            <option value="vegetariano" data-es="Vegetariano" data-fr="Végétarien">Vegetariano</option>
+            <option value="vegano" data-es="Vegano" data-fr="Végétalien">Vegano</option>
+            <option value="sin-gluten" data-es="Sin gluten" data-fr="Sans gluten">Sin gluten</option>
+            <option value="otra" data-es="Otra" data-fr="Autre">Otra</option>
           </select>
-          <input id="r-msg" type="text" placeholder="Mensaje para los novios (opcional)" maxlength="120"/>
-          <button class="submit-btn" onclick="submitRSVP()">Confirmar asistencia 🌿</button>
+          <input id="r-msg" type="text" placeholder="Mensaje para los novios (opcional)" data-ph-es="Mensaje para los novios (opcional)" data-ph-fr="Message pour les mariés (optionnel)" maxlength="120"/>
+          <button class="submit-btn" onclick="submitRSVP()" data-es="Confirmar asistencia 🌿" data-fr="Confirmer ma présence 🌿">Confirmar asistencia 🌿</button>
         </div>
       </div>
       <div class="rsvp-success" id="rsvp-thanks">
         <div class="check">🎉</div>
-        <p>¡Gracias! Tu confirmación fue recibida.<br>¡Los esperamos con mucho amor!</p>
+        <p data-es-html="¡Gracias! Tu confirmación fue recibida.<br>¡Los esperamos con mucho amor!" data-fr-html="Merci ! Votre confirmation a été reçue.<br>Nous vous attendons avec beaucoup d'amour !">¡Gracias! Tu confirmación fue recibida.<br>¡Los esperamos con mucho amor!</p>
       </div>
     </div>
 
     <div class="rsvp-card disabled-card reveal">
-      <p class="rsvp-round">Segunda confirmación</p>
-      <div class="rsvp-date">Septiembre</div>
+      <p class="rsvp-round" data-es="Segunda confirmación" data-fr="Deuxième confirmation">Segunda confirmación</p>
+      <div class="rsvp-date" data-es="Septiembre" data-fr="Septembre">Septiembre</div>
       <div class="rsvp-year">2026</div>
-      <p class="rsvp-desc">Segunda oportunidad para asegurar tu lugar.</p>
-      <span class="btn-disabled">Próximamente</span>
-      <span class="coming-soon">Disponible en septiembre</span>
+      <p class="rsvp-desc" data-es="Segunda oportunidad para asegurar tu lugar." data-fr="Deuxième occasion d'assurer votre place.">Segunda oportunidad para asegurar tu lugar.</p>
+      <span class="btn-disabled" data-es="Próximamente" data-fr="Bientôt disponible">Próximamente</span>
+      <span class="coming-soon" data-es="Disponible en septiembre" data-fr="Disponible en septembre">Disponible en septiembre</span>
     </div>
 
     <div class="rsvp-card disabled-card reveal">
-      <p class="rsvp-round">Última confirmación</p>
-      <div class="rsvp-date">Noviembre</div>
+      <p class="rsvp-round" data-es="Última confirmación" data-fr="Dernière confirmation">Última confirmación</p>
+      <div class="rsvp-date" data-es="Noviembre" data-fr="Novembre">Noviembre</div>
       <div class="rsvp-year">2026</div>
-      <p class="rsvp-desc">Fecha límite final. ¡No dejes pasar esta ronda!</p>
-      <span class="btn-disabled">Próximamente</span>
-      <span class="coming-soon">Disponible en noviembre</span>
+      <p class="rsvp-desc" data-es="Fecha límite final. ¡No dejes pasar esta ronda!" data-fr="Date limite finale. Ne manquez pas cette occasion !">Fecha límite final. ¡No dejes pasar esta ronda!</p>
+      <span class="btn-disabled" data-es="Próximamente" data-fr="Bientôt disponible">Próximamente</span>
+      <span class="coming-soon" data-es="Disponible en noviembre" data-fr="Disponible en novembre">Disponible en noviembre</span>
     </div>
   </div>
 </section>
 
 <!-- GIFTS -->
 <section class="gifts-sec" id="regalos">
-  <p class="sec-label">Mesa de regalos</p>
-  <h2 class="sec-title">Con amor y <em>gratitud</em></h2>
-  <p class="gifts-intro">El mejor regalo es tu presencia 🌿 Si deseas hacernos un obsequio, puedes hacerlo mediante transferencia bancaria:</p>
+  <p class="sec-label" data-es="Mesa de regalos" data-fr="Liste de mariage">Mesa de regalos</p>
+  <h2 class="sec-title"><span data-es="Con amor y" data-fr="Avec amour et">Con amor y</span> <em data-es="gratitud" data-fr="gratitude">gratitud</em></h2>
+  <p class="gifts-intro" data-es="El mejor regalo es tu presencia 🌿 Si deseas hacernos un obsequio, puedes hacerlo mediante transferencia bancaria:" data-fr="Le plus beau cadeau, c'est votre présence 🌿 Si vous souhaitez nous offrir un présent, vous pouvez le faire par virement bancaire :">El mejor regalo es tu presencia 🌿 Si deseas hacernos un obsequio, puedes hacerlo mediante transferencia bancaria:</p>
   <div style="display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem">
     <button onclick="switchBank('mx')" id="btn-mx" style="padding:.55rem 1.4rem;border-radius:50px;border:1.5px solid var(--sage);font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Lato',sans-serif;transition:all .2s;background:var(--mid);color:#fff;letter-spacing:.06em">🇲🇽 México</button>
     <button onclick="switchBank('bo')" id="btn-bo" style="padding:.55rem 1.4rem;border-radius:50px;border:1.5px solid var(--sage);font-size:.78rem;font-weight:700;cursor:pointer;font-family:'Lato',sans-serif;transition:all .2s;background:transparent;color:var(--olive);letter-spacing:.06em">🇧🇴 Bolivia</button>
   </div>
 
   <div class="bank-card reveal visible" id="bank-mx">
-    <p class="bank-lbl">Datos bancarios · México</p>
+    <p class="bank-lbl" data-es="Datos bancarios · México" data-fr="Coordonnées bancaires · Mexique">Datos bancarios · México</p>
     <h3 class="bank-name">Gaby &amp; Alex</h3>
-    <div class="bank-row"><span class="bank-field">Banco</span><span class="bank-val">BBVA</span></div>
-    <div class="bank-row"><span class="bank-field">Titular</span><span class="bank-val">Alex Anvi Eponon</span></div>
-    <div class="bank-row"><span class="bank-field">Número de cuenta</span><span class="bank-val">159 625 1361</span></div>
-    <div class="bank-row"><span class="bank-field">CLABE interbancaria</span><span class="bank-val">012 180 01596251361 9</span></div>
-    <div class="bank-row"><span class="bank-field">Concepto</span><span class="bank-val" style="color:var(--mist)">Boda Gaby &amp; Alex 🌿</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Banco" data-fr="Banque">Banco</span><span class="bank-val">BBVA</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Titular" data-fr="Titulaire">Titular</span><span class="bank-val">Alex Anvi Eponon</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Número de cuenta" data-fr="N° de compte">Número de cuenta</span><span class="bank-val">159 625 1361</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="CLABE interbancaria" data-fr="CLABE interbancaire">CLABE interbancaria</span><span class="bank-val">012 180 01596251361 9</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Concepto" data-fr="Référence">Concepto</span><span class="bank-val" style="color:var(--mist)">Boda Gaby &amp; Alex 🌿</span></div>
   </div>
 
   <div class="bank-card reveal" id="bank-bo" style="display:none">
-    <p class="bank-lbl">Datos bancarios · Bolivia</p>
+    <p class="bank-lbl" data-es="Datos bancarios · Bolivia" data-fr="Coordonnées bancaires · Bolivie">Datos bancarios · Bolivia</p>
     <h3 class="bank-name">Gaby &amp; Alex</h3>
-    <div class="bank-row"><span class="bank-field">Banco</span><span class="bank-val">BNB</span></div>
-    <div class="bank-row"><span class="bank-field">Titular</span><span class="bank-val">Alethea Gabriela Candia Calderon</span></div>
-    <div class="bank-row"><span class="bank-field">Número de cuenta</span><span class="bank-val">4500405932</span></div>
-    <div class="bank-row"><span class="bank-field">Concepto</span><span class="bank-val" style="color:var(--mist)">Boda Gaby &amp; Alex 🌿</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Banco" data-fr="Banque">Banco</span><span class="bank-val">BNB</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Titular" data-fr="Titulaire">Titular</span><span class="bank-val">Alethea Gabriela Candia Calderon</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Número de cuenta" data-fr="N° de compte">Número de cuenta</span><span class="bank-val">4500405932</span></div>
+    <div class="bank-row"><span class="bank-field" data-es="Concepto" data-fr="Référence">Concepto</span><span class="bank-val" style="color:var(--mist)">Boda Gaby &amp; Alex 🌿</span></div>
     <div style="margin-top:1.5rem;text-align:center">
-      <p style="font-size:.7rem;color:var(--mist);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem">Escanea para transferir</p>
+      <p style="font-size:.7rem;color:var(--mist);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem" data-es="Escanea para transferir" data-fr="Scannez pour transférer">Escanea para transferir</p>
       <img src="qr-bnb.png" alt="QR BNB - Gaby & Alex" style="width:180px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.2)">
     </div>
   </div>
 
-  <p class="gifts-note2">💛 Cada detalle suma a nuestro nuevo hogar. ¡Gracias de corazón!</p>
+  <p class="gifts-note2" data-es="💛 Cada detalle suma a nuestro nuevo hogar. ¡Gracias de corazón!" data-fr="💛 Chaque attention contribue à notre nouveau foyer. Merci du fond du cœur !">💛 Cada detalle suma a nuestro nuevo hogar. ¡Gracias de corazón!</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="ft-names">Gaby &amp; Alex</div>
-  <p class="ft-date">26 de diciembre de 2026 · Sucre, Bolivia</p>
+  <p class="ft-date" data-es="26 de diciembre de 2026 · Sucre, Bolivia" data-fr="26 décembre 2026 · Sucre, Bolivie">26 de diciembre de 2026 · Sucre, Bolivia</p>
   <div class="ft-contacts">
     <a href="https://wa.me/525564600910" target="_blank">📱 +52 556 460 0910</a>
     <a href="https://wa.me/59171174048" target="_blank">📱 +591 711 74048</a>
@@ -604,7 +674,7 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
     <div style="flex:1;height:1px;background:currentColor;opacity:.4"></div>
   </div>
   <p class="ft-hash">#GabyYAlex2026</p>
-  <p style="margin-top:1.5rem;font-size:.72rem;color:#80b15c;letter-spacing:.1em">Hecho con 💚 para el día más especial</p>
+  <p style="margin-top:1.5rem;font-size:.72rem;color:#80b15c;letter-spacing:.1em" data-es="Hecho con 💚 para el día más especial" data-fr="Créé avec 💚 pour le plus beau des jours">Hecho con 💚 para el día más especial</p>
 </footer>
 
 <!-- LIGHTBOX -->
@@ -614,6 +684,77 @@ footer{background:var(--dark);color:var(--cream);padding:4rem 2rem;text-align:ce
 </div>
 
 <script>
+// ========== LANGUAGE SWITCHER ==========
+const I18N = {
+  es: {
+    rsvpAlert: 'Por favor completa tu nombre y número de personas 🌿',
+    rsvpNoMsg: 'Sin mensaje',
+    rsvpNoDiet: 'Ninguna'
+  },
+  fr: {
+    rsvpAlert: 'Veuillez indiquer votre nom et le nombre de personnes 🌿',
+    rsvpNoMsg: 'Sans message',
+    rsvpNoDiet: 'Aucun'
+  }
+};
+let currentLang = 'es';
+
+function applyLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+
+  // Translate textContent elements
+  document.querySelectorAll('[data-'+lang+']').forEach(el=>{
+    const val = el.getAttribute('data-'+lang);
+    if(val !== null) el.textContent = val;
+  });
+
+  // Translate innerHTML elements (for things with <br>)
+  document.querySelectorAll('[data-'+lang+'-html]').forEach(el=>{
+    const val = el.getAttribute('data-'+lang+'-html');
+    if(val !== null) el.innerHTML = val;
+  });
+
+  // Translate input placeholders
+  document.querySelectorAll('[data-ph-'+lang+']').forEach(el=>{
+    const val = el.getAttribute('data-ph-'+lang);
+    if(val !== null) el.placeholder = val;
+  });
+
+  // Nav language switcher highlight
+  const lsEs = document.getElementById('ls-es');
+  const lsFr = document.getElementById('ls-fr');
+  if(lsEs) lsEs.classList.toggle('active', lang==='es');
+  if(lsFr) lsFr.classList.toggle('active', lang==='fr');
+
+  // Persist choice
+  try { localStorage.setItem('gaby_alex_lang', lang); } catch(e) {}
+}
+
+function setLang(lang){
+  applyLang(lang);
+  const modal = document.getElementById('langModal');
+  if(modal && !modal.classList.contains('hidden')){
+    modal.classList.add('hidden');
+    setTimeout(()=>{ modal.style.display='none'; }, 500);
+  }
+}
+
+// On load: check for saved preference, otherwise show modal
+(function initLang(){
+  let saved = null;
+  try { saved = localStorage.getItem('gaby_alex_lang'); } catch(e) {}
+  if(saved === 'es' || saved === 'fr'){
+    applyLang(saved);
+    const modal = document.getElementById('langModal');
+    if(modal){ modal.style.display='none'; }
+  } else {
+    // Default to Spanish until user picks (page content is already in Spanish)
+    applyLang('es');
+    // Modal stays visible and user must choose
+  }
+})();
+
 // Lightbox
 function openLightbox(src){
   const lb=document.getElementById('lightbox');
@@ -673,13 +814,14 @@ function submitRSVP(){
   const name=document.getElementById('r-name').value.trim();
   const guests=document.getElementById('r-guests').value.trim();
   const diet=document.getElementById('r-diet').value;
-  if(!name||!guests){alert('Por favor completa tu nombre y número de personas 🌿');return;}
+  const t = I18N[currentLang] || I18N.es;
+  if(!name||!guests){alert(t.rsvpAlert);return;}
 
   var params=new URLSearchParams();
   params.append('entry.877086558',name);
   params.append('entry.1498135098',guests);
-  params.append('entry.1424661284',diet||'Ninguna');
-  params.append('entry.2606285',document.getElementById('r-msg').value.trim()||'Sin mensaje');
+  params.append('entry.1424661284',diet||t.rsvpNoDiet);
+  params.append('entry.2606285',document.getElementById('r-msg').value.trim()||t.rsvpNoMsg);
 
   fetch('https://docs.google.com/forms/d/e/1FAIpQLScJQrP8__3At_QE_DmDDW7TMINf8IMDcIC_dorqzrwjmKxutQ/formResponse?'+params.toString(),{
     method:'GET',
